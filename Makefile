@@ -22,8 +22,7 @@ lex.yy.o: lex.yy.c gram.tab.h
 	$(CC) -c $< $(CFLAGS) -o $@
 
 gram.tab.h: gram.tab.c
-
-gram.tab.c: gram.y
+gram.tab.c: gram.y gocheck.h
 	$(YACC) -d $<
 
 lex.yy.c: lex.l

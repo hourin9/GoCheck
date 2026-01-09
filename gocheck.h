@@ -3,6 +3,7 @@
 #include <stddef.h>
 
 enum ASTType {
+        AST_Invalid,
         AST_VarDecl,
         AST_If,
         AST_For,
