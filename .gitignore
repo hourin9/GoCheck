@@ -58,3 +58,5 @@ dkms.conf
 Session*.vim
 
 GoCheck*
+gram.tab.*
+lex.yy.*
