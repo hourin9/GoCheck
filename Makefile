@@ -3,7 +3,7 @@ YACC := bison
 LEX := flex
 
 WARN := -Wall -Werror
-CFLAGS := $(WARN) -std=c23
+CFLAGS := $(WARN) -std=gnu23
 
 SRC_FILES := $(wildcard *.c)
 OBJ_FILES := $(SRC_FILES:.c=.o)
