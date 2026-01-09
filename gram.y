@@ -20,11 +20,12 @@ void yyerror(char const*);
 %%
 
 input: %empty
-     | input variable_decl
+     | input variable_decl ';'
+     | input expression ';'
      ;
 
-variable_decl: VAR id_list type_opt assignment ';' { printf("var w/ asg\n"); }
-             | VAR id_list type_opt ';' { printf("var w/o asg\n"); }
+variable_decl: VAR id_list type_opt assignment { printf("var w/ asg\n"); }
+             | VAR id_list type_opt { printf("var w/o asg\n"); }
              ;
 
 id_list: id_list ',' ID
@@ -35,8 +36,11 @@ type_opt: %empty
         | ID
         ;
 
-// TODO: use expression for assignment
-assignment: '=' ID
+assignment: '=' expression
+
+expression: ID
+          | STR_LIT
+          ;
 
 %%
 
