@@ -20,11 +20,17 @@ void yyerror(char const*);
 %start input
 %%
 
-input: %empty
-     | input variable_decl ';'
-     | input expression ';'
-     | input for_loop
+input: stmt_list
      ;
+
+stmt_list: %empty
+         | stmt_list stmt
+         ;
+
+stmt: variable_decl ';'
+    | expression ';'
+    | for_loop
+    ;
 
 variable_decl: VAR id_list type_opt assignment { printf("var w/ asg\n"); }
              | VAR id_list type_opt { printf("var w/o asg\n"); }
@@ -53,8 +59,11 @@ arg_list: %empty
         | arg_list ',' expression
         ;
 
-for_loop: FOR expression '{' input '}' { printf("for loop\n"); }
-        | FOR '{' input '}'
+block: '{' stmt_list '}'
+     ;
+
+for_loop: FOR expression block { printf("loop\n"); }
+        | FOR block { printf("inf loop\n"); }
         ;
 
 %%
