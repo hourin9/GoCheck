@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stddef.h>
+
 enum ASTType {
         AST_VarDecl,
         AST_If,
@@ -17,4 +19,9 @@ struct AST {
 
 struct AST *node(enum ASTType, struct AST *lhs, struct AST *rhs);
 struct AST *leaf(enum ASTType, char *sval);
+
+// Returns maximum nested levels in branching statement
+// excluding loops.
+// Returns 0 if given AST node isn't an AST_If
+size_t nesting_level(const struct AST*);
 
