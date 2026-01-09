@@ -42,7 +42,16 @@ assignment: '=' expression
 
 expression: ID
           | STR_LIT
+          | fncall
           ;
+
+fncall: ID '(' arg_list ')' { printf("calling func %s\n", $1); }
+      ;
+
+arg_list: %empty
+        | expression
+        | arg_list ',' expression
+        ;
 
 for_loop: FOR expression '{' input '}' { printf("for loop\n"); }
         | FOR '{' input '}'

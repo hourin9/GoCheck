@@ -17,6 +17,9 @@
 "{" { return '{'; }
 "}" { return '}'; }
 
+"(" { return '('; }
+")" { return ')'; }
+
 \".*\" {
         yylval.str = strdup(yytext);
         return STR_LIT;
