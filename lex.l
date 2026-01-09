@@ -6,8 +6,10 @@
 
 %%
 
+"else" { return ELSE; }
 "for" { return FOR; }
 "func" { return FUNC; }
+"if" { return IF; }
 "var" { return VAR; }
 
 ";" { return ';'; }

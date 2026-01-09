@@ -10,8 +10,10 @@ void yyerror(char const*);
         char *str;
 }
 
+%token ELSE
 %token FOR
 %token FUNC
+%token IF
 %token VAR
 
 %token <str> ID
@@ -30,6 +32,7 @@ stmt_list: %empty
 stmt: variable_decl ';'
     | expression ';'
     | for_loop
+    | branch
     ;
 
 variable_decl: VAR id_list type_opt assignment { printf("var w/ asg\n"); }
@@ -64,6 +67,14 @@ block: '{' stmt_list '}'
 
 for_loop: FOR expression block { printf("loop\n"); }
         | FOR block { printf("inf loop\n"); }
+        ;
+
+branch: IF expression block else_opt
+      ;
+
+else_opt: ELSE branch
+        | ELSE block
+        | %empty
         ;
 
 %%
