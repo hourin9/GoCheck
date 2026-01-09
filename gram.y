@@ -10,6 +10,7 @@ void yyerror(char const*);
         char *str;
 }
 
+%token FOR
 %token FUNC
 %token VAR
 
@@ -22,6 +23,7 @@ void yyerror(char const*);
 input: %empty
      | input variable_decl ';'
      | input expression ';'
+     | input for_loop
      ;
 
 variable_decl: VAR id_list type_opt assignment { printf("var w/ asg\n"); }
@@ -41,6 +43,10 @@ assignment: '=' expression
 expression: ID
           | STR_LIT
           ;
+
+for_loop: FOR expression '{' input '}' { printf("for loop\n"); }
+        | FOR '{' input '}'
+        ;
 
 %%
 

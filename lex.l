@@ -6,12 +6,16 @@
 
 %%
 
+"for" { return FOR; }
 "func" { return FUNC; }
 "var" { return VAR; }
 
 ";" { return ';'; }
 "," { return ','; }
 "=" { return '='; }
+
+"{" { return '{'; }
+"}" { return '}'; }
 
 \".*\" {
         yylval.str = strdup(yytext);
