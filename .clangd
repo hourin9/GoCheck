@@ -1,0 +1,2 @@
+CompileFlags:
+    Add: [-Wall, -Werror, "-std=c23"]
