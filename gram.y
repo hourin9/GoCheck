@@ -19,7 +19,8 @@ void yyerror(char const*);
 %token IF
 %token VAR
 
-%type <node> stmt stmt_list block expression variable_decl branch for_loop
+%type <node> stmt stmt_list block expression variable_decl
+%type <node> branch else_opt for_loop
 
 %{
 struct AST *parser_ast;
@@ -54,7 +55,9 @@ stmt: variable_decl ';' { $$ = $1; }
     | branch
     ;
 
-variable_decl: VAR id_list type_opt assignment { printf("var w/ asg\n"); }
+variable_decl: VAR id_list type_opt assignment {
+                printf("var w/ asg\n");
+             }
              | VAR ID type_opt {
                 struct AST *id = leaf(AST_Id, $2);
                 $$ = node(AST_VarDecl, id, nullptr);
@@ -76,7 +79,9 @@ expression: ID { $$ = leaf(AST_Id, $1); }
           | fncall
           ;
 
-fncall: ID '(' arg_list ')' { printf("calling func %s\n", $1); }
+fncall: ID '(' arg_list ')' {
+        printf("calling func %s\n", $1);
+      }
       ;
 
 arg_list: %empty
@@ -84,19 +89,21 @@ arg_list: %empty
         | arg_list ',' expression
         ;
 
-block: '{' stmt_list '}'
+block: '{' stmt_list '}' { $$ = $2; }
      ;
 
 for_loop: FOR expression block { printf("loop\n"); }
         | FOR block { printf("inf loop\n"); }
         ;
 
-branch: IF expression block else_opt
+branch: IF expression block else_opt {
+        $$ = if_node($2, $3);
+      }
       ;
 
-else_opt: ELSE branch
-        | ELSE block
-        | %empty
+else_opt: ELSE branch { $$ = $2; }
+        | ELSE block { $$ = $2; }
+        | %empty { $$ = nullptr; }
         ;
 
 %%

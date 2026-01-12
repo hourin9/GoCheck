@@ -21,3 +21,8 @@ struct AST *leaf(enum ASTType t, char *sval)
         return node;
 }
 
+struct AST *if_node(struct AST *condition, struct AST *then)
+{
+        return node(AST_If, condition, then);
+}
+

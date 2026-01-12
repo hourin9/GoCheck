@@ -21,6 +21,8 @@ struct AST {
 struct AST *node(enum ASTType, struct AST *lhs, struct AST *rhs);
 struct AST *leaf(enum ASTType, char *sval);
 
+struct AST *if_node(struct AST *condition, struct AST *then);
+
 // Returns maximum nested levels in branching statement
 // excluding loops.
 // Returns 0 if given AST node isn't an AST_If
