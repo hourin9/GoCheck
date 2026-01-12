@@ -117,6 +117,7 @@ for_loop: FOR expression block { printf("loop\n"); }
 
 branch: IF expression block else_opt {
         $$ = if_node($2, $3);
+        $$->otherwise = $4;
       }
       ;
 

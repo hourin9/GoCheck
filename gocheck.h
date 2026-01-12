@@ -21,6 +21,12 @@ struct AST {
         char *sval,
              *typeid;
         struct AST *lhs, *rhs;
+
+        // Primarily used for branching. This looks like a
+        // memory compromise, but it requires way less work
+        // and concrete laws.
+        struct AST *otherwise;
+
         struct AST *next;
 };
 

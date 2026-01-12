@@ -22,6 +22,10 @@ void recursive_print(FILE *where, const struct AST *node, int depth)
                 fprintf(where, "%*sRHS:\n", depth, "");
                 recursive_print(where, node->rhs, depth + 4);
         }
+        if (node->otherwise) {
+                fprintf(where, "%*sOTHERWISE:\n", depth, "");
+                recursive_print(where, node->otherwise, depth + 4);
+        }
 
         if (node->next)
                 recursive_print(where, node->next, depth);
