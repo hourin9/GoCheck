@@ -23,7 +23,7 @@ lex.yy.o: lex.yy.c gram.tab.h
 
 gram.tab.h: gram.tab.c
 gram.tab.c: gram.y gocheck.h
-	$(YACC) -d $<
+	$(YACC) -d $< -Werror
 
 lex.yy.c: lex.l
 	$(LEX) $<
