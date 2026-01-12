@@ -11,8 +11,13 @@ int main(int argc, char **argv)
         test->next = node(AST_If, nullptr, nullptr);
         printf("%zu\n", nesting_level(test));
 
-        if (yyparse() == 0) {
-                printf("%d\n", parser_ast->type);
+        if (yyparse() != 0)
+                return 1;
+
+        struct AST *cur = parser_ast;
+        while (cur != nullptr) {
+                printf("Node of type %d\n", cur->type);
+                cur = cur->next;
         }
 
         return 0;

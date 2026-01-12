@@ -50,9 +50,9 @@ stmt_list: %empty { $$ = nullptr; }
          ;
 
 stmt: variable_decl ';' { $$ = $1; }
-    | expression ';'
-    | for_loop
-    | branch
+    | expression ';' { $$ = $1; }
+    | for_loop { $$ = $1; }
+    | branch { $$ = $1; }
     ;
 
 variable_decl: VAR id_list type_opt assignment {
