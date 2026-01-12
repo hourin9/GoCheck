@@ -131,8 +131,8 @@ package: PACKAGE STR_LIT { $$ = package_node($2); }
 import: IMPORT STR_LIT { $$ = import_node($2); }
       ;
 
-function_decl: FUNC ID type_opt '(' arg_opt ')' '{' stmt_list '}' {
-                $$ = func_node($2, $3 ? $3->sval : nullptr, $5, $8);
+function_decl: FUNC ID '(' arg_opt ')' type_opt '{' stmt_list '}' {
+                $$ = func_node($2, $6 ? $6->sval : nullptr, $4, $8);
              }
              ;
 
