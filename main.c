@@ -13,12 +13,7 @@ int main(int argc, char **argv)
 
         if (yyparse() != 0)
                 return 1;
-
-        struct AST *cur = parser_ast;
-        while (cur != nullptr) {
-                printf("Node of type %d\n", cur->type);
-                cur = cur->next;
-        }
+        recursive_print(stdout, parser_ast, 0);
 
         return 0;
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stddef.h>
+#include <stdio.h>
 
 enum ASTType {
         AST_Invalid,
@@ -22,6 +23,8 @@ struct AST {
         struct AST *lhs, *rhs;
         struct AST *next;
 };
+
+void recursive_print(FILE*, const struct AST*, int depth);
 
 struct AST *node(enum ASTType, struct AST *lhs, struct AST *rhs);
 struct AST *leaf(enum ASTType, char *sval);
