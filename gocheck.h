@@ -9,6 +9,7 @@ enum ASTType {
         AST_For,
         AST_Id,
         AST_StmtList,
+        AST_Call,
 };
 
 struct AST {
@@ -23,6 +24,7 @@ struct AST *node(enum ASTType, struct AST *lhs, struct AST *rhs);
 struct AST *leaf(enum ASTType, char *sval);
 
 struct AST *if_node(struct AST *condition, struct AST *then);
+struct AST *call_node(struct AST *callee, struct AST *argv);
 
 // Returns maximum nested levels in branching statement
 // excluding loops.

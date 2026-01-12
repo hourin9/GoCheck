@@ -26,3 +26,8 @@ struct AST *if_node(struct AST *condition, struct AST *then)
         return node(AST_If, condition, then);
 }
 
+struct AST *call_node(struct AST *callee, struct AST *argv)
+{
+        return node(AST_Call, callee, argv);
+}
+

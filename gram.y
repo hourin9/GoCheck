@@ -21,6 +21,7 @@ void yyerror(char const*);
 
 %type <node> stmt stmt_list block expression variable_decl
 %type <node> branch else_opt for_loop
+%type <node> arg_opt arg_list fncall
 
 %{
 struct AST *parser_ast;
@@ -76,17 +77,23 @@ assignment: '=' expression
 
 expression: ID { $$ = leaf(AST_Id, $1); }
           | STR_LIT { $$ = leaf(AST_Id, $1); }
-          | fncall
+          | fncall { $$ = $1; }
           ;
 
-fncall: ID '(' arg_list ')' {
-        printf("calling func %s\n", $1);
+fncall: expression '(' arg_opt ')' {
+        $$ = call_node($1, $3);
       }
       ;
 
-arg_list: %empty
-        | expression
-        | arg_list ',' expression
+arg_opt: %empty { $$ = nullptr; }
+       | arg_list { $$ = $1; }
+       ;
+
+arg_list: expression { $$ = $1; }
+        | arg_list ',' expression {
+                $1->next = $3;
+                $$ = $1;
+        }
         ;
 
 block: '{' stmt_list '}' { $$ = $2; }
