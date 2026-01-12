@@ -12,6 +12,7 @@ enum ASTType {
         AST_Call,
         AST_Package,
         AST_Import,
+        AST_Func,
 };
 
 struct AST {
@@ -30,6 +31,12 @@ struct AST *import_node(char *name);
 struct AST *if_node(struct AST *condition, struct AST *then);
 struct AST *call_node(struct AST *callee, struct AST *argv);
 struct AST *decl_node(struct AST *id_list, struct AST *expr);
+struct AST *func_node
+        ( char *name
+        , char *type
+        , struct AST *argv
+        , struct AST *body
+        );
 
 // Returns maximum nested levels in branching statement
 // excluding loops.

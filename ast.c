@@ -46,3 +46,16 @@ struct AST *decl_node(struct AST *id_list, struct AST *expr)
         return node(AST_VarDecl, id_list, expr);
 }
 
+struct AST *func_node
+        ( char *name
+        , char *type
+        , struct AST *argv
+        , struct AST *body
+        )
+{
+        struct AST *func = node(AST_Func, argv, body);
+        func->sval = name;
+        func->typeid = type;
+        return func;
+}
+
