@@ -10,6 +10,8 @@ enum ASTType {
         AST_Id,
         AST_StmtList,
         AST_Call,
+        AST_Package,
+        AST_Import,
 };
 
 struct AST {
@@ -23,6 +25,8 @@ struct AST {
 struct AST *node(enum ASTType, struct AST *lhs, struct AST *rhs);
 struct AST *leaf(enum ASTType, char *sval);
 
+struct AST *package_node(char *name);
+struct AST *import_node(char *name);
 struct AST *if_node(struct AST *condition, struct AST *then);
 struct AST *call_node(struct AST *callee, struct AST *argv);
 

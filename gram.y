@@ -17,11 +17,14 @@ void yyerror(char const*);
 %token FOR
 %token FUNC
 %token IF
+%token IMPORT
+%token PACKAGE
 %token VAR
 
 %type <node> stmt stmt_list block expression variable_decl
 %type <node> branch else_opt for_loop
 %type <node> arg_opt arg_list fncall
+%type <node> import package
 
 %{
 struct AST *parser_ast;
@@ -54,6 +57,8 @@ stmt: variable_decl ';' { $$ = $1; }
     | expression ';' { $$ = $1; }
     | for_loop { $$ = $1; }
     | branch { $$ = $1; }
+    | import ';' { $$ = $1; }
+    | package ';' { $$ = $1; }
     ;
 
 variable_decl: VAR id_list type_opt assignment {
@@ -112,6 +117,12 @@ else_opt: ELSE branch { $$ = $2; }
         | ELSE block { $$ = $2; }
         | %empty { $$ = nullptr; }
         ;
+
+package: PACKAGE STR_LIT { $$ = package_node($2); }
+       ;
+
+import: IMPORT STR_LIT { $$ = import_node($2); }
+      ;
 
 %%
 

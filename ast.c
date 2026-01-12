@@ -31,3 +31,13 @@ struct AST *call_node(struct AST *callee, struct AST *argv)
         return node(AST_Call, callee, argv);
 }
 
+struct AST *package_node(char *name)
+{
+        return leaf(AST_Package, name);
+}
+
+struct AST *import_node(char *name)
+{
+        return leaf(AST_Import, name);
+}
+

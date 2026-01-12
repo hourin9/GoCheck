@@ -10,6 +10,8 @@
 "for" { return FOR; }
 "func" { return FUNC; }
 "if" { return IF; }
+"import" { return IMPORT; }
+"package" { return PACKAGE; }
 "var" { return VAR; }
 
 ";" { return ';'; }
