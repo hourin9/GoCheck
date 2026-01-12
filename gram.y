@@ -26,6 +26,7 @@ void yyerror(char const*);
 %type <node> branch else_opt for_loop
 %type <node> arg_opt arg_list fncall
 %type <node> import package
+%type <node> function_decl
 
 %{
 struct AST *parser_ast;
@@ -60,6 +61,7 @@ stmt: variable_decl ';' { $$ = $1; }
     | branch { $$ = $1; }
     | import ';' { $$ = $1; }
     | package ';' { $$ = $1; }
+    | function_decl { $$ = $1; }
     ;
 
 variable_decl: VAR id_list type_opt assignment_opt {
@@ -128,6 +130,11 @@ package: PACKAGE STR_LIT { $$ = package_node($2); }
 
 import: IMPORT STR_LIT { $$ = import_node($2); }
       ;
+
+function_decl: FUNC ID type_opt '(' arg_opt ')' '{' stmt_list '}' {
+                $$ = func_node($2, $3 ? $3->sval : nullptr, $5, $8);
+             }
+             ;
 
 %%
 
