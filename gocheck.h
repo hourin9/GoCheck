@@ -29,6 +29,7 @@ struct AST *package_node(char *name);
 struct AST *import_node(char *name);
 struct AST *if_node(struct AST *condition, struct AST *then);
 struct AST *call_node(struct AST *callee, struct AST *argv);
+struct AST *decl_node(struct AST *id_list, struct AST *expr);
 
 // Returns maximum nested levels in branching statement
 // excluding loops.

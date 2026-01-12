@@ -22,7 +22,7 @@ void yyerror(char const*);
 %token VAR
 
 %type <node> stmt stmt_list block expression variable_decl
-%type <node> type_opt assignment_opt
+%type <node> type_opt assignment_opt id_list
 %type <node> branch else_opt for_loop
 %type <node> arg_opt arg_list fncall
 %type <node> import package
@@ -63,18 +63,23 @@ stmt: variable_decl ';' { $$ = $1; }
     ;
 
 variable_decl: VAR id_list type_opt assignment_opt {
-                printf("TODO: declaring var\n");
-                // struct AST *id = leaf(AST_Id, $2);
-                // $$ = node(AST_VarDecl, id, nullptr);
+                // TODO: handle types in assignment
+                struct AST *ids = $2;
+                struct AST *type = $3;
+                $$ = decl_node(ids, type);
              }
              ;
 
-id_list: id_list ',' ID
-       | ID
+id_list: ID { $$ = leaf(AST_Id, $1); }
+       | id_list ',' ID {
+                struct AST *root = leaf(AST_Id, $1->sval);
+                root->next = leaf(AST_Id, $3);
+                $$ = root;
+       }
        ;
 
-type_opt: %empty
-        | ID
+type_opt: %empty { $$ = nullptr; }
+        | ID { $$ = leaf(AST_Id, $1); }
         ;
 
 assignment_opt: %empty { $$ = nullptr; }

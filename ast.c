@@ -41,3 +41,8 @@ struct AST *import_node(char *name)
         return leaf(AST_Import, name);
 }
 
+struct AST *decl_node(struct AST *id_list, struct AST *expr)
+{
+        return node(AST_VarDecl, id_list, expr);
+}
+
