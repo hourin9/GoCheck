@@ -13,7 +13,8 @@ enum ASTType {
 
 struct AST {
         enum ASTType type;
-        char *sval;
+        char *sval,
+             *typeid;
         struct AST *lhs, *rhs;
         struct AST *next;
 };
