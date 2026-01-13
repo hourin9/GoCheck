@@ -20,12 +20,27 @@ struct AST {
         enum ASTType type;
         char *sval,
              *typeid;
-        struct AST *lhs, *rhs;
 
-        // Primarily used for branching. This looks like a
-        // memory compromise, but it requires way less work
-        // and concrete laws.
-        struct AST *otherwise;
+        // Using separate union containing structs for statements,
+        // for example struct ControlFlow, struct BinaryOp would've
+        // been better, but I don't want to touch it yet.
+        //
+        // Therefore I'm going with anonymous union to create aliases,
+        // making the code at least easier to be figured out.
+
+        union {
+                struct AST *lhs,
+                           *cond;
+        };
+
+        union {
+                struct AST *rhs,
+                           *then;
+        };
+
+        union {
+                struct AST *otherwise;
+        };
 
         struct AST *next;
 };
