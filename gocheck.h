@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 
 enum ASTType {
@@ -61,6 +62,19 @@ struct AST *func_node
         , struct AST *argv
         , struct AST *body
         );
+
+// TODO: better solution that can carry analysis context.
+struct AnalysisResult {
+        // uint8_t is more than enough. No one nests more than
+        // 100 times.
+        uint8_t nesting;
+};
+
+// Analyzes one node.
+struct AnalysisResult analyze_ast(const struct AST*);
+
+// Walks the entire code tree and prints diagnosis result.
+void analyze_and_print(FILE *where, const struct AST*);
 
 // Returns maximum nested levels in branching statement
 // excluding loops.
