@@ -11,6 +11,7 @@ void yyerror(char const*);
 %union {
         char *str;
         struct AST *node;
+        float f32;
 }
 
 %token ELSE
@@ -34,6 +35,7 @@ struct AST *parser_ast;
 
 %token <str> ID
 %token <str> STR_LIT
+%token <f32> NUM_LIT
 
 %start input
 %%
@@ -88,7 +90,8 @@ assignment_opt: %empty { $$ = nullptr; }
               | '=' expression { $$ = $2; }
 
 expression: ID { $$ = leaf(AST_Id, $1); }
-          | STR_LIT { $$ = leaf(AST_Id, $1); }
+          | STR_LIT { $$ = leaf(AST_StringLiteral, $1); }
+          | NUM_LIT { $$ = number($1); }
           | fncall { $$ = $1; }
           ;
 

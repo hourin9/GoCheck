@@ -15,10 +15,13 @@ enum ASTType {
         AST_Package,
         AST_Import,
         AST_Func,
+        AST_StringLiteral,
+        AST_NumericLiteral,
 };
 
 struct AST {
         enum ASTType type;
+        float f32;
         char *sval,
              *typeid;
 
@@ -50,6 +53,7 @@ void recursive_print(FILE*, const struct AST*, int depth);
 
 struct AST *node(enum ASTType, struct AST *lhs, struct AST *rhs);
 struct AST *leaf(enum ASTType, char *sval);
+struct AST *number(float);
 
 struct AST *package_node(char *name);
 struct AST *import_node(char *name);

@@ -12,6 +12,8 @@ void recursive_print(FILE *where, const struct AST *node, int depth)
                 fprintf(where, "sval: %s", node->sval);
         if (node->typeid)
                 fprintf(where, "type: %s", node->typeid);
+        if (node->type == AST_NumericLiteral)
+                fprintf(where, "f32: %g", node->f32);
         fprintf(where, "\n");
 
         if (node->lhs) {

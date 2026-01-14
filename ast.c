@@ -21,6 +21,15 @@ struct AST *leaf(enum ASTType t, char *sval)
         return node;
 }
 
+struct AST *number(float f32)
+{
+        struct AST *node = malloc(sizeof(*node));
+        *node = (struct AST){ 0 };
+        node->type = AST_NumericLiteral;
+        node->f32 = f32;
+        return node;
+}
+
 struct AST *if_node(struct AST *condition, struct AST *then)
 {
         return node(AST_If, condition, then);
