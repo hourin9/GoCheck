@@ -1,19 +1,38 @@
 #include "gocheck.h"
 
-size_t nesting_level(const struct AST *root)
+static size_t _travel_side(const struct AST *root)
 {
-        if (root->type != AST_If)
+        if (!root)
                 return 0;
 
-        size_t max = 1;
-        const struct AST *cur;
-        for (cur = root->next; cur != nullptr; cur = cur->next) {
-                // WIP: probably shouldn't check the AST.next.
-                // I will return to this once the parser can build the AST.
-                size_t child_nest_level = nesting_level(cur) + max;
-                max = (max < child_nest_level) ? child_nest_level : max;
+        if (root->type == AST_If)
+                return 1 + nesting_level(root);
+
+        size_t max_depth = 0;
+        const struct AST *cur = root->next;
+        for (; cur != nullptr; cur = cur->next) {
+                size_t depth = _travel_side(cur);
+                if (depth > max_depth)
+                        max_depth = depth;
         }
 
-        return max;
+        return max_depth;
+}
+
+size_t nesting_level(const struct AST *root)
+{
+        if (!root || root->type != AST_If)
+                return 0;
+
+        size_t do_side = _travel_side(root->then);
+
+        size_t otherwide_side = 0;
+        const struct AST *otherwise = root->otherwise;
+        if (otherwise)
+                otherwide_side = (otherwise->type == AST_If)
+                        ? nesting_level(otherwise)
+                        : _travel_side(otherwise);
+
+        return (do_side > otherwide_side) ? do_side : otherwide_side;
 }
 
