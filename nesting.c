@@ -6,7 +6,7 @@ static size_t _travel_side(const struct AST *root)
                 return 0;
 
         if (root->type == AST_If)
-                return 1 + nesting_level(root);
+                return nesting_level(root);
 
         size_t max_depth = 0;
         const struct AST *cur = root->next;
@@ -30,9 +30,9 @@ size_t nesting_level(const struct AST *root)
         const struct AST *otherwise = root->otherwise;
         if (otherwise)
                 otherwide_side = (otherwise->type == AST_If)
-                        ? nesting_level(otherwise)
+                        ? nesting_level(otherwise) - 1
                         : _travel_side(otherwise);
 
-        return (do_side > otherwide_side) ? do_side : otherwide_side;
+        return 1 + ((do_side > otherwide_side) ? do_side : otherwide_side);
 }
 
