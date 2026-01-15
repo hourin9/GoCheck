@@ -81,6 +81,11 @@ struct AnalysisResult {
         bool bad_global;
 
         const struct AST *magic_number;
+
+        // -1: not always returning (for funcs)
+        // 0: default, for non funcs
+        // 1: function always returns
+        int always_return;
 };
 
 // Analyzes one node.
@@ -95,4 +100,6 @@ void analyze_and_print(FILE *where, const struct AST*);
 size_t nesting_level(const struct AST*);
 
 const struct AST *seek_magic_number(const struct AST*);
+
+bool leads_to_rome(const struct AST *func);
 
