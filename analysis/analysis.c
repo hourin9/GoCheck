@@ -1,4 +1,4 @@
-#include "gocheck.h"
+#include "../gocheck.h"
 
 #include <stdbool.h>
 #include <stdio.h>

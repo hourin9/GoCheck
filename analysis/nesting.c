@@ -1,4 +1,4 @@
-#include "gocheck.h"
+#include "../gocheck.h"
 
 static size_t _travel_side(const struct AST *root)
 {

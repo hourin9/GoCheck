@@ -5,7 +5,7 @@ LEX := flex
 WARN := -Wall -Werror
 CFLAGS := $(WARN) -std=gnu23 -MMD
 
-SRC_FILES := $(wildcard *.c)
+SRC_FILES := $(wildcard *.c) $(wildcard analysis/*.c)
 OBJ_FILES := $(SRC_FILES:.c=.o)
 
 all: GoCheck

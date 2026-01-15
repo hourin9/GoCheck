@@ -1,4 +1,4 @@
-#include "gocheck.h"
+#include "../gocheck.h"
 
 static bool _qualifies_as_magic_number(float f32)
 {
