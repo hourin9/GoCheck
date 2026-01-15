@@ -15,6 +15,8 @@ struct AnalysisResult analyze_ast(const struct AST *node)
         res.bad_global = _globalScope
                 && (node->type == AST_VarDecl);
 
+        res.magic_number = seek_magic_number(node);
+
         return res;
 }
 
@@ -26,8 +28,14 @@ void analyze_and_print(FILE *where, const struct AST *code)
                         fprintf(where,
                                 "@ Walking function %s\n",
                                 code->sval);
+
                         analyze_and_print(where, code->rhs);
+
+                        fprintf(where,
+                                "@ Exit function %s\n",
+                                code->sval);
                         _globalScope = true;
+                        continue;
                 }
 
                 struct AnalysisResult res = analyze_ast(code);
@@ -41,6 +49,11 @@ void analyze_and_print(FILE *where, const struct AST *code)
                         fprintf(where,
                                 "! Variable declaration in global scope\n"
                                 );
+
+                if (res.magic_number)
+                        fprintf(where,
+                                "! Magic number detected (%g)\n",
+                                res.magic_number->f32);
         }
 }
 
