@@ -1,8 +1,11 @@
 #include "gocheck.h"
 
-bool _qualifies_as_magic_number(float f32)
+static bool _qualifies_as_magic_number(float f32)
 {
-        return (f32 != 0.f);
+        int ui32 = (unsigned int)f32;
+        return (f32 != (int)f32) ||
+                ((ui32 != 0) && (ui32 != 1) && (ui32 != 2))
+                ;
 }
 
 const struct AST *seek_magic_number(const struct AST *root)
