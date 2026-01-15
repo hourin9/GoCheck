@@ -77,6 +77,8 @@ struct AnalysisResult {
 
         // Global variable are frowned upon.
         bool bad_global;
+
+        const struct AST *magic_number;
 };
 
 // Analyzes one node.
@@ -89,4 +91,6 @@ void analyze_and_print(FILE *where, const struct AST*);
 // excluding loops.
 // Returns 0 if given AST node isn't an AST_If
 size_t nesting_level(const struct AST*);
+
+const struct AST *seek_magic_number(const struct AST*);
 
