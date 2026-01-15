@@ -60,7 +60,8 @@ struct AST *package_node(char *name);
 struct AST *import_node(char *name);
 struct AST *if_node(struct AST *condition, struct AST *then);
 struct AST *call_node(struct AST *callee, struct AST *argv);
-struct AST *decl_node(struct AST *id_list, struct AST *expr);
+struct AST *var_node(struct AST *id_list, struct AST *expr, char *typeid);
+struct AST *const_node(struct AST *id_list, struct AST *expr, char *typeid);
 struct AST *func_node
         ( char *name
         , char *type

@@ -75,17 +75,21 @@ declaration: variable_decl { $$ = $1; }
 variable_decl: VAR id_list type_opt assignment_opt {
                 // TODO: handle types in assignment
                 struct AST *ids = $2;
-                struct AST *type = $3;
-                $$ = decl_node(ids, type);
+                char *typeid = ($3 != nullptr)
+                        ? $3->sval
+                        : nullptr;
+                struct AST *expr = $4;
+                $$ = var_node(ids, expr, typeid);
              }
              ;
 
 const_decl: CONST id_list type_opt '=' expression {
                 struct AST *ids = $2;
-                __attribute__((unused))
-                struct AST *type = $3;
+                char *typeid = ($3 != nullptr)
+                        ? $3->sval
+                        : nullptr;
                 struct AST *expr = $5;
-                $$ = decl_node(ids, expr);
+                $$ = const_node(ids, expr, typeid);
           }
           ;
 

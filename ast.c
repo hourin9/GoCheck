@@ -50,9 +50,18 @@ struct AST *import_node(char *name)
         return leaf(AST_Import, name);
 }
 
-struct AST *decl_node(struct AST *id_list, struct AST *expr)
+struct AST *var_node(struct AST *id_list, struct AST *expr, char *typeid)
 {
-        return node(AST_VarDecl, id_list, expr);
+        struct AST *n = node(AST_VarDecl, id_list, expr);
+        n->typeid = typeid;
+        return n;
+}
+
+struct AST *const_node(struct AST *id_list, struct AST *expr, char *typeid)
+{
+        struct AST *n = node(AST_ConstDecl, id_list, expr);
+        n->typeid = typeid;
+        return n;
 }
 
 struct AST *func_node
