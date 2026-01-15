@@ -48,26 +48,7 @@ void analyze_and_print(FILE *where, const struct AST *code)
                 }
 
                 struct AnalysisResult res = analyze_ast(code);
-
-                if (res.nesting >= 3)
-                        fprintf(where,
-                                "! Deep nesting (%u times)\n",
-                                res.nesting);
-
-                if (res.bad_global)
-                        fprintf(where,
-                                "! Variable declaration in global scope\n"
-                                );
-
-                if (res.magic_number)
-                        fprintf(where,
-                                "? Magic number detected (%g)\n",
-                                res.magic_number->f32);
-
-                if (res.always_return == -1)
-                        fprintf(where,
-                                "! Function %s does not return from all paths\n",
-                                code->sval);
+                print_analysis_result(where, &res, code);
         }
 }
 

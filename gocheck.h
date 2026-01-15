@@ -94,6 +94,9 @@ struct AnalysisResult analyze_ast(const struct AST*);
 // Walks the entire code tree and prints diagnosis result.
 void analyze_and_print(FILE *where, const struct AST*);
 
+void print_analysis_result(FILE *where, const struct AnalysisResult*,
+        const struct AST*);
+
 // Returns maximum nested levels in branching statement
 // excluding loops.
 // Returns 0 if given AST node isn't an AST_If
