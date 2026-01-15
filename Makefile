@@ -3,7 +3,8 @@ YACC := bison
 LEX := flex
 
 WARN := -Wall -Werror
-CFLAGS := $(WARN) -std=gnu23 -MMD
+INTERNAL_CFLAGS := $(WARN) -std=gnu23 -MMD
+override CFLAGS += $(INTERNAL_CFLAGS)
 
 SRC_FILES := $(wildcard *.c) $(wildcard analysis/*.c)
 OBJ_FILES := $(SRC_FILES:.c=.o)
@@ -28,8 +29,14 @@ gram.tab.c: gram.y gocheck.h
 lex.yy.c: lex.l
 	$(LEX) $<
 
-clean:
-	rm -f *.o *.d GoCheck gram.tab.* lex.yy.c
+clean: clean-deps clean-objs
+	rm -f GoCheck gram.tab.* lex.yy.c
+
+clean-deps:
+	rm -f *.d
+
+clean-objs:
+	rm -f *.o
 
 -include $(OBJ_FILES:.o=.d)
 
