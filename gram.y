@@ -14,6 +14,7 @@ void yyerror(char const*);
         float f32;
 }
 
+%token CONST
 %token ELSE
 %token FOR
 %token FUNC
@@ -22,7 +23,8 @@ void yyerror(char const*);
 %token PACKAGE
 %token VAR
 
-%type <node> stmt stmt_list block expression variable_decl
+%type <node> stmt stmt_list block expression
+%type <node> declaration const_decl variable_decl
 %type <node> type_opt assignment_opt id_list
 %type <node> branch else_opt for_loop
 %type <node> arg_opt arg_list fncall
@@ -57,7 +59,7 @@ stmt_list: %empty { $$ = nullptr; }
          }
          ;
 
-stmt: variable_decl ';' { $$ = $1; }
+stmt: declaration ';' { $$ = $1; }
     | expression ';' { $$ = $1; }
     | for_loop { $$ = $1; }
     | branch { $$ = $1; }
@@ -66,6 +68,10 @@ stmt: variable_decl ';' { $$ = $1; }
     | function_decl { $$ = $1; }
     ;
 
+declaration: variable_decl { $$ = $1; }
+           | const_decl { $$ = $1; }
+           ;
+
 variable_decl: VAR id_list type_opt assignment_opt {
                 // TODO: handle types in assignment
                 struct AST *ids = $2;
@@ -73,6 +79,15 @@ variable_decl: VAR id_list type_opt assignment_opt {
                 $$ = decl_node(ids, type);
              }
              ;
+
+const_decl: CONST id_list type_opt '=' expression {
+                struct AST *ids = $2;
+                __attribute__((unused))
+                struct AST *type = $3;
+                struct AST *expr = $5;
+                $$ = decl_node(ids, expr);
+          }
+          ;
 
 id_list: ID { $$ = leaf(AST_Id, $1); }
        | id_list ',' ID {

@@ -7,6 +7,7 @@
 enum ASTType {
         AST_Invalid,
         AST_VarDecl,
+        AST_ConstDecl,
         AST_If,
         AST_For,
         AST_Id,

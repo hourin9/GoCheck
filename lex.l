@@ -6,6 +6,7 @@
 
 %%
 
+"const" { return CONST; }
 "else" { return ELSE; }
 "for" { return FOR; }
 "func" { return FUNC; }
