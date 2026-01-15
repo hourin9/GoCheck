@@ -74,6 +74,9 @@ struct AnalysisResult {
         // uint8_t is more than enough. No one nests more than
         // 100 times.
         uint8_t nesting;
+
+        // Global variable are frowned upon.
+        bool bad_global;
 };
 
 // Analyzes one node.
