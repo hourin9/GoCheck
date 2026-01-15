@@ -30,6 +30,11 @@ struct AST *number(float f32)
         return node;
 }
 
+struct AST *return_node(struct AST *expr)
+{
+        return node(AST_Return, nullptr, expr);
+}
+
 struct AST *if_node(struct AST *condition, struct AST *then)
 {
         return node(AST_If, condition, then);

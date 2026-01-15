@@ -17,6 +17,7 @@ enum ASTType {
         AST_Import,
         AST_Func,
         AST_StringLiteral,
+        AST_Return,
         AST_NumericLiteral,
 };
 
@@ -56,6 +57,7 @@ struct AST *node(enum ASTType, struct AST *lhs, struct AST *rhs);
 struct AST *leaf(enum ASTType, char *sval);
 struct AST *number(float);
 
+struct AST *return_node(struct AST *expr);
 struct AST *package_node(char *name);
 struct AST *import_node(char *name);
 struct AST *if_node(struct AST *condition, struct AST *then);

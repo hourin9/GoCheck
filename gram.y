@@ -8,6 +8,8 @@ extern int yylex();
 void yyerror(char const*);
 %}
 
+%define parse.error verbose
+
 %union {
         char *str;
         struct AST *node;
@@ -21,6 +23,7 @@ void yyerror(char const*);
 %token IF
 %token IMPORT
 %token PACKAGE
+%token RETURN
 %token VAR
 
 %type <node> stmt stmt_list block expression
@@ -30,6 +33,7 @@ void yyerror(char const*);
 %type <node> arg_opt arg_list fncall
 %type <node> import package
 %type <node> function_decl
+%type <node> return
 
 %{
 struct AST *parser_ast;
@@ -66,6 +70,7 @@ stmt: declaration ';' { $$ = $1; }
     | import ';' { $$ = $1; }
     | package ';' { $$ = $1; }
     | function_decl { $$ = $1; }
+    | return ';' { $$ = $1; }
     ;
 
 declaration: variable_decl { $$ = $1; }
@@ -158,6 +163,9 @@ function_decl: FUNC ID '(' arg_opt ')' type_opt '{' stmt_list '}' {
                 $$ = func_node($2, $6 ? $6->sval : nullptr, $4, $8);
              }
              ;
+
+return: RETURN expression { $$ = return_node($2); }
+      ;
 
 %%
 

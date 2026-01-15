@@ -13,6 +13,7 @@
 "if" { return IF; }
 "import" { return IMPORT; }
 "package" { return PACKAGE; }
+"return" { return RETURN; }
 "var" { return VAR; }
 
 ";" { return ';'; }
